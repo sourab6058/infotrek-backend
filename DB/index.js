@@ -3,6 +3,6 @@ exports.pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "mcalab",
-  password: "root",
+  password: "pass1234",
   port: 5432,
 });

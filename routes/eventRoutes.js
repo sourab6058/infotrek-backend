@@ -4,7 +4,12 @@ const authController = require("../controllers/authController");
 
 const router = express.Router();
 
-router.post("/", eventController.createEvent);
+router.post(
+  "/",
+  authController.protect,
+  authController.authorizeAdmin,
+  eventController.createEvent
+);
 router.post(
   "/register",
 
@@ -25,7 +30,7 @@ router.patch(
   eventController.updateEvent
 );
 router.delete(
-  "/",
+  "/:id",
   authController.protect,
   authController.authorizeAdmin,
   eventController.deleteEvent
