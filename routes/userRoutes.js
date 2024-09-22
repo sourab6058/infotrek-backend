@@ -27,7 +27,7 @@ const upload = multer({ storage });
 
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
-router.patch("/update/:id", authController.update);
+router.put("/update/:id", authController.update);
 router.patch("/uploadpic/:id", upload.single("file"), authController.uploadPic);
 
 module.exports = router;

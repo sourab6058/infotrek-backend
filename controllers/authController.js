@@ -88,7 +88,6 @@ exports.login = async (req, res) => {
 
 exports.update = async (req, res) => {
   const id = req.params.id;
-  console.log(id);
   const { username, email, dob, gender } = req.body;
   try {
     let user = await pool.query(

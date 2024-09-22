@@ -46,6 +46,19 @@ exports.registerEvent = async (req, res) => {
     });
   }
   try {
+    const user = await pool.query(
+      "SELECT * FROM EVENT_REGISTRATIONS WHERE EVENT_ID=$1 AND USER_ID=$2",
+      [event_id, user_id]
+    );
+    console.log(user);
+    if (user.rowCount > 0) {
+      return res.status(401).json({ message: "User is already registered." });
+    }
+  } catch (e) {
+    console.log(e);
+    return res.status(400).json({ message: "Something went wrong." });
+  }
+  try {
     const result = await pool.query(
       "INSERT INTO EVENT_REGISTRATIONS(id, user_id, event_id, status) VALUES($1,$2,$3,$4) RETURNING *",
       [id, user_id, event_id, status]
@@ -60,7 +73,6 @@ exports.registerEvent = async (req, res) => {
 };
 exports.unRegisterEvent = async (req, res) => {
   const { user_id, event_id } = req.body;
-  const id = uuidv4();
 
   if (!(user_id && event_id)) {
     return res.status(400).json({
