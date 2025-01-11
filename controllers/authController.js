@@ -88,13 +88,15 @@ exports.login = async (req, res) => {
 
 exports.update = async (req, res) => {
   const id = req.params.id;
-  const { username, email, dob, gender } = req.body;
+  console.log("Here");
+  const { username, email, dob, gender, phone, rollNum, course, year } =
+    req.body;
   try {
     let user = await pool.query(
-      "UPDATE USER_DETAILS SET NAME=$1, EMAIL=$2, DOB=$3, GENDER=$4 WHERE ID=$5 RETURNING *",
-      [username, email, dob, gender, id]
+      "UPDATE USER_DETAILS SET NAME=$1, DOB=$2, GENDER=$3, PHONE=$4, ROLL_NUM=$5, COURSE=$6, YEAR=$7 WHERE ID=$8 RETURNING *",
+      [username, dob, gender, phone, rollNum, course, year, id]
     );
-
+    console.log(user.rows);
     if (user.rows.length > 0) {
       res.status(200).json({
         message: "success",
